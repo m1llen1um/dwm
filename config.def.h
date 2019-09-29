@@ -64,6 +64,7 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "st", NULL };
 /*************************** CUSTOM ****************************************/
 static const char *firefox[]  = { "firefox", NULL };
+static const char *clipmenu[]  = { "clipmenu", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -102,6 +103,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
     /*************************** CUSTOM ****************************************/
 	{ MODKEY|ShiftMask,             XK_f,      spawn,          {.v = firefox } },
+	{ MODKEY,                       XK_w,      spawn,          {.v = clipmenu } },
 };
 
 /* button definitions */
