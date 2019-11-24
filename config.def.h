@@ -65,6 +65,8 @@ static const char *termcmd[]  = { "st", NULL };
 /*************************** CUSTOM ****************************************/
 static const char *firefox[]  = { "firefox", NULL };
 static const char *clipmenu[]  = { "clipmenu", NULL };
+static const char *brupcmd[] = { "xbacklight", "-inc", "10", NULL };
+static const char *brdowncmd[] = { "xbacklight", "-dec", "10", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -104,6 +106,8 @@ static Key keys[] = {
     /*************************** CUSTOM ****************************************/
 	{ MODKEY|ShiftMask,             XK_f,      spawn,          {.v = firefox } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = clipmenu } },
+    { 0,                            0x1008ff03,spawn,          {.v = brdowncmd} },
+    { 0,                            0x1008ff02,spawn,          {.v = brupcmd} },
 };
 
 /* button definitions */
