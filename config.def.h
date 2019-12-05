@@ -65,8 +65,8 @@ static const char *termcmd[]  = { "st", NULL };
 /*************************** CUSTOM ****************************************/
 static const char *firefox[]  = { "firefox", NULL };
 static const char *clipmenu[]  = { "clipmenu", NULL };
-static const char *brupcmd[] = { "xbacklight", "-inc", "10", NULL };
-static const char *brdowncmd[] = { "xbacklight", "-dec", "10", NULL };
+static const char *brupcmd[] = { "xbacklight", "-inc", "5", NULL };
+static const char *brdowncmd[] = { "xbacklight", "-dec", "5", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
