@@ -42,9 +42,9 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
+	{ "",      tile },    /* first entry is default */
+	{ "🍃",      NULL },    /* no layout function means floating behavior */
+	{ "🧐",      monocle },
 };
 
 /* key definitions */
@@ -67,6 +67,9 @@ static const char *firefox[]  = { "firefox", NULL };
 static const char *clipmenu[]  = { "clipmenu", NULL };
 static const char *brupcmd[] = { "xbacklight", "-inc", "5", NULL };
 static const char *brdowncmd[] = { "xbacklight", "-dec", "5", NULL };
+static const char *rhd[] = { "rhd", NULL };
+static const char *rhdfhd[] = { "rhd-fullhd-mon", NULL };
+static const char *rhd2mon[] = { "rhd-2mon", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -108,6 +111,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_w,      spawn,          {.v = clipmenu } },
     { 0,                            0x1008ff03,spawn,          {.v = brdowncmd} },
     { 0,                            0x1008ff02,spawn,          {.v = brupcmd} },
+    { Mod4Mask|ShiftMask,           XK_1      ,spawn,          {.v = rhd} },
+    { Mod4Mask|ShiftMask,           XK_2      ,spawn,          {.v = rhdfhd} },
+    { Mod4Mask|ShiftMask,           XK_3      ,spawn,          {.v = rhd2mon} },
 };
 
 /* button definitions */
