@@ -22,7 +22,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "🖥", "🌍", "", "🗨", "5", "6", "7", "8", "" };
+static const char *tags[] = { "", "🌍", "", "🗨", "", "", "", "", "" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -31,9 +31,10 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",      NULL,       NULL,       0,            1,           -1 },
-	{ "st",        NULL,       NULL,       1 << 2,       0,           -1 },
 	{ "firefox",   NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "st",        NULL,       NULL,       0     ,       0,           -1 },
 	{ "Slack",     NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "Spotify",   NULL,       NULL,       1 << 6,       0,           -1 },
 	{ "rdesktop",  NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
