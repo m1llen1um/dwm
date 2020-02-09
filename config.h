@@ -8,8 +8,8 @@ static const unsigned int gappx     = 2;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "DejaVu Sans Mono for Powerline:size=13" };
-static const char dmenufont[]       = "DejaVu Sans Mono for Powerline:size=13";
+static const char *fonts[]          = {"JetBrains Mono:style=Medium:size=14"};
+static const char dmenufont[]       = "JetBrains Mono:style=Medium:size=14";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -22,7 +22,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "🖥", "🌍", "", "🗨", "5", "6", "7", "8", "" };
+static const char *tags[] = { "", "🌍", "", "🗨", "", "", "", "", "" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -31,9 +31,10 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",      NULL,       NULL,       0,            1,           -1 },
-	{ "st",        NULL,       NULL,       1 << 2,       0,           -1 },
 	{ "firefox",   NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "st",        NULL,       NULL,       0     ,       0,           -1 },
 	{ "Slack",     NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "Spotify",   NULL,       NULL,       1 << 6,       0,           -1 },
 	{ "rdesktop",  NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
@@ -67,6 +68,7 @@ static const char *termcmd[]  = { "st", NULL };
 /*************************** CUSTOM ****************************************/
 static const char *firefox[]  = { "firefox", NULL };
 static const char *clipmenu[]  = { "clipmenu", NULL };
+static const char *pulsemixer[]  = { "st", "pulsemixer", NULL};
 static const char *rhd[] = { "rhd", NULL };
 static const char *rhdfhd[] = { "rhd-fullhd-mon", NULL };
 static const char *rhd2mon[] = { "rhd-2mon", NULL };
@@ -78,6 +80,7 @@ static const char *miccmd[]     = { "pactl",      "set-source-mute", "1", "toggl
 static const char *volupcmd[]   = { "pactl",      "set-sink-volume", "0", "+5%", NULL };
 static const char *voldowncmd[] = { "pactl",      "set-sink-volume", "0", "-5%", NULL };
 
+#include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_grave,  spawn,          {.v = dmenucmd } },
@@ -89,6 +92,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
@@ -116,6 +121,7 @@ static Key keys[] = {
     /*************************** CUSTOM ****************************************/
 	{ MODKEY|ShiftMask,             XK_f,      spawn,          {.v = firefox } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = clipmenu } },
+	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = pulsemixer } },
     { Mod4Mask|ShiftMask,           XK_1      ,spawn,          {.v = rhd} },
     { Mod4Mask|ShiftMask,           XK_2      ,spawn,          {.v = rhdfhd} },
     { Mod4Mask|ShiftMask,           XK_3      ,spawn,          {.v = rhd2mon} },
