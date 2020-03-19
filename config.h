@@ -22,7 +22,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "", "", "", "", "", "", "", "", "" };
+static const char *tags[] = { "", "", "", "", "", "", "", "", "" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -51,7 +51,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -63,7 +63,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-c", "-l", "20", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
 /*************************** CUSTOM ****************************************/
 static const char *firefox[]  = { "firefox", NULL };
@@ -72,6 +72,8 @@ static const char *pulsemixer[]  = { "st", "pulsemixer", NULL};
 static const char *rhd[] = { "rhd", NULL };
 static const char *rhdfhd[] = { "rhd-fullhd-mon", NULL };
 static const char *rhd2mon[] = { "rhd-2mon", NULL };
+static const char *dmenueditconfigs[] = { "dmenu-edit-configs", NULL };
+static const char *centertermcmd[] = { "st", "-t", "-g", "120x34", NULL };
 /*************************** CUSTOM - Media Keys ****************************************/
 static const char *brupcmd[]    = { "xbacklight", "-inc", "5", NULL };
 static const char *brdowncmd[]  = { "xbacklight", "-dec", "5", NULL };
@@ -84,7 +86,8 @@ static const char *voldowncmd[] = { "pactl",      "set-sink-volume", "0", "-5%",
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_grave,  spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = centertermcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -125,6 +128,7 @@ static Key keys[] = {
     { Mod4Mask|ShiftMask,           XK_1      ,spawn,          {.v = rhd} },
     { Mod4Mask|ShiftMask,           XK_2      ,spawn,          {.v = rhdfhd} },
     { Mod4Mask|ShiftMask,           XK_3      ,spawn,          {.v = rhd2mon} },
+    { MODKEY,                       XK_e      ,spawn,          {.v = dmenueditconfigs} },
 /*************************** CUSTOM - Media Keys ****************************************/
     { 0,                            XF86XK_AudioMute,         spawn, {.v = mutecmd } },
     { 0,                            XF86XK_AudioMicMute,      spawn, {.v = miccmd } },
