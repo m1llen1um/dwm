@@ -24,18 +24,22 @@ static const char *colors[][3]      = {
 /* tagging */
 static const char *tags[] = { "", "", "", "", "", "", "", "", "" };
 
+// WM_CLASS Picker:
+// xprop | grep WM_CLASS | awk '{print $4}'
+//
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",      NULL,       NULL,       0,            1,           -1 },
-	{ "firefox",   NULL,       NULL,       1 << 1,       0,           -1 },
-	{ "st",        NULL,       NULL,       0     ,       0,           -1 },
-	{ "Slack",     NULL,       NULL,       1 << 3,       0,           -1 },
-	{ "Spotify",   NULL,       NULL,       1 << 6,       0,           -1 },
-	{ "rdesktop",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "Gimp",            NULL,       NULL,       0,            1,           -1 },
+//  { "firefox",         NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "st",              NULL,       NULL,       0     ,       0,           -1 },
+	{ "Slack",           NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "Spotify",         NULL,       NULL,       1 << 6,       0,           -1 },
+	{ "rdesktop",        NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "qBittorrent",     NULL,       NULL,       1 << 7,       0,           -1 },
 };
 
 /* layout(s) */
@@ -48,6 +52,8 @@ static const Layout layouts[] = {
 	{ "",      tile },    /* first entry is default */
 	{ "",      NULL },    /* no layout function means floating behavior */
 	{ "",      monocle },
+	{ "|M|",      centeredmaster },
+	{ ">M>",      centeredfloatingmaster },
 };
 
 /* key definitions */
@@ -69,11 +75,16 @@ static const char *termcmd[]  = { "st", NULL };
 static const char *firefox[]  = { "firefox", NULL };
 static const char *clipmenu[]  = { "clipmenu", NULL };
 static const char *pulsemixer[]  = { "st", "pulsemixer", NULL};
+static const char *vifm[]  = { "st", "vifm", NULL};
 static const char *rhd[] = { "rhd", NULL };
 static const char *rhdfhd[] = { "rhd-fullhd-mon", NULL };
 static const char *rhd2mon[] = { "rhd-2mon", NULL };
 static const char *dmenueditconfigs[] = { "dmenu-edit-configs", NULL };
-static const char *centertermcmd[] = { "st", "-t", "-g", "120x34", NULL };
+static const char scratchpadname[] = "scratchpad";
+static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "145x35", NULL };
+static const char *screenshot[] = { "flameshot", "gui", "-p", "/tmp", NULL };
+static const char *taskellmenu[] = { "st", "taskell-menu", NULL };
+// static const char *trans[] = {"echo -e '' | dmenu -p 'Translate:' | trans -v", NULL };
 /*************************** CUSTOM - Media Keys ****************************************/
 static const char *brupcmd[]    = { "xbacklight", "-inc", "5", NULL };
 static const char *brdowncmd[]  = { "xbacklight", "-dec", "5", NULL };
@@ -87,7 +98,7 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_grave,  spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = centertermcmd } },
+    { MODKEY|ShiftMask,		        XK_Return, togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -103,6 +114,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -125,10 +138,14 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_f,      spawn,          {.v = firefox } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = clipmenu } },
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = pulsemixer } },
-    { Mod4Mask|ShiftMask,           XK_1      ,spawn,          {.v = rhd} },
-    { Mod4Mask|ShiftMask,           XK_2      ,spawn,          {.v = rhdfhd} },
-    { Mod4Mask|ShiftMask,           XK_3      ,spawn,          {.v = rhd2mon} },
-    { MODKEY,                       XK_e      ,spawn,          {.v = dmenueditconfigs} },
+	{ Mod4Mask,                     XK_e,      spawn,          {.v = vifm } },
+	{ 0,                            XK_Print,  spawn,          {.v = screenshot } },
+	{ MODKEY|ControlMask,           XK_k,      spawn,          {.v = taskellmenu } },
+	// { MODKEY|ControlMask,           XK_t,      spawn,          {.v = trans } },
+    { Mod4Mask,                     XK_F1     ,spawn,          {.v = rhd} },
+    { Mod4Mask,                     XK_F2     ,spawn,          {.v = rhdfhd} },
+    { Mod4Mask,                     XK_F3     ,spawn,          {.v = rhd2mon} },
+    { MODKEY|ShiftMask,             XK_e      ,spawn,          {.v = dmenueditconfigs} },
 /*************************** CUSTOM - Media Keys ****************************************/
     { 0,                            XF86XK_AudioMute,         spawn, {.v = mutecmd } },
     { 0,                            XF86XK_AudioMicMute,      spawn, {.v = miccmd } },
@@ -136,6 +153,10 @@ static Key keys[] = {
     { 0,                            XF86XK_AudioRaiseVolume,  spawn, {.v = volupcmd } },
     { 0,                            XF86XK_MonBrightnessUp,   spawn, {.v = brupcmd} },
     { 0,                            XF86XK_MonBrightnessDown, spawn, {.v = brdowncmd} },
+/*************************** CUSTOM - COMMANDS ***************************************/
+    { MODKEY|ShiftMask,		        XK_x,                     spawn, SHCMD("[ \"$(printf \"No\\nYes\" | dmenu -i -nb darkred -sb red -sf white -nf gray -p \"Shutdown computer?\")\" = Yes ] && shutdown -h now") },
+   	{ MODKEY|ShiftMask,     		XK_r,       	          spawn, SHCMD("[ \"$(printf \"No\\nYes\" | dmenu -i -nb darkblue -sb blue -sf white -nf gray -p \"Reboot computer?\")\" = Yes ] && sudo reboot") },
+	{ MODKEY|ShiftMask,             XK_z,	                  spawn, SHCMD("[ \"$(printf \"No\\nYes\" | dmenu -i -nb darkgreen -sb green -sf black -nf gray -p \"Hibernate computer?\")\" = Yes ] && systemctl suspend") },
 };
 
 /* button definitions */
