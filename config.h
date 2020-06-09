@@ -82,6 +82,7 @@ static const char *rhd2mon[] = { "rhd-2mon", NULL };
 static const char *dmenueditconfigs[] = { "dmenu-edit-configs", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "145x35", NULL };
+static const char *scratchcalcmd[] = { "st", "-t", scratchpadname, "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
 static const char *screenshot[] = { "flameshot", "gui", "-p", "/tmp", NULL };
 static const char *taskellmenu[] = { "st", "taskell-menu", NULL };
 // static const char *trans[] = {"echo -e '' | dmenu -p 'Translate:' | trans -v", NULL };
@@ -103,6 +104,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_grave,  spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
     { MODKEY|ShiftMask,		        XK_Return, togglescratch,  {.v = scratchpadcmd } },
+    { MODKEY,		                XK_equal,  togglescratch,  {.v = scratchcalcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -170,9 +172,9 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button1,        spawn,          {.v = statuscmd } },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = statuscmd } },
-	{ ClkStatusText,        0,              Button3,        spawn,          {.v = statuscmd } },
+    { ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
+	{ ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} },
+	{ ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
